@@ -1,0 +1,37 @@
+---
+title: "day 10 activity"
+author: "Kiran Favre"
+date: "2022-08-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(beeswarm)
+```
+
+```{r}
+ice_duration_data <- read_csv(here("data", "ntl33_v7.csv"), na = "-999")
+
+
+meteorological_data <- read_csv(here("data", "ntl20_v6.csv"))
+```
+
+
+Create a visualization that compares ice duration across different lakes in the Madison Lake Area. Include actual ice duration values and some representation of summary stats for each lake.
+```{r}
+ggplot(ice_duration_data, aes(x = lakeid, y = ice_duration)) +
+  geom_jitter(width = 0.2, color = "pink") +
+  geom_boxplot(fill = NA, width = 0.3, outlier.color = NA)
+  
+```
+
+```{r}
+madison_mean_ice_cover <-ice_duration_data |> 
+  group_by(year4) |> 
+  summarize(mean(ice_duration, na.rm = TRUE))
+```
+
